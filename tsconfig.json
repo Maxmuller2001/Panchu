@@ -9,7 +9,7 @@
         "noEmitOnError": true,
     },
     "include": [
-        "src/ts/*"
+        "src"
     ],
     "exclude": [
         "node_modules",
