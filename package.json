@@ -1,15 +1,23 @@
 {
-  "name": "package",
+  "name": "c",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "dependencies": {
-    "phaser": "^3.15.1"
+    "phaser": "^2.6.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo test"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cassis163/Panchu.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cassis163/Panchu/issues"
+  },
+  "homepage": "https://github.com/cassis163/Panchu#readme"
 }

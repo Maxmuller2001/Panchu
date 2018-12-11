@@ -1,1 +1,1 @@
-{"version":3,"file":"app.js","sourceRoot":"","sources":["../src/ts/startscherm.ts","../src/ts/test.ts"],"names":[],"mappings":"ACAA,OAAO,CAAC,GAAG,CAAC,cAAc,CAAC,CAAC"}
+{"version":3,"file":"app.js","sourceRoot":"","sources":["../src/ts/QuestionScreen.ts","../src/ts/startscreen.ts","../src/ts/test.ts"],"names":[],"mappings":"AAAA,MAAM,cAAc;IAEpB,IAAI;QACA,OAAO,CAAC,GAAG,CAAC,MAAM,CAAC,CAAA;IACvB,CAAC;CAEA;AEND,OAAO,CAAC,GAAG,CAAC,cAAc,CAAC,CAAC"}
