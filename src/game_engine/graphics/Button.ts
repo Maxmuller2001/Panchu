@@ -1,4 +1,4 @@
-class Button extends Entity {
+class ImageButton extends Entity {
 
         public text: string;
 

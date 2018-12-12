@@ -2,7 +2,7 @@ function onLoad() {
     let canvasElement = document.getElementById("canvas");
     let canvas = new Canvas(canvasElement);
     let game = new Game(canvas);
-    let screen = new StartScreen(canvas);
+    let screen = new QuestionScreen(canvas);
     screen.draw();
 }
 window.onload = onLoad;
@@ -10,6 +10,8 @@ class Canvas {
     constructor(canvas) {
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
+        this.canvas.width = innerWidth;
+        this.canvas.height = innerHeight;
     }
     Clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -68,7 +70,7 @@ class DynamicEntity extends Entity {
         this.velocity = new Vector2(0, 0);
     }
 }
-class Button extends Entity {
+class ImageButton extends Entity {
     constructor(text, x, y, width, height, canvas, imageSource) {
         const position = new Vector2(x, y);
         const size = new Vector2(width, height);
@@ -172,6 +174,7 @@ class Vector2 {
 class QuestionScreen {
     constructor(canvas) {
         this.draw = () => {
+            document.getElementById("canvas").style.background = "#f3f3f3 url('')";
             const answersObject = [{
                     questionNumber: 1,
                     question: 'Wat is de hoofdstad van Noord-Holland?',
@@ -228,28 +231,15 @@ class QuestionScreen {
                 }
             ];
             for (let i = 0; i < answersObject.length; i++) {
-                console.log(answersObject[i].questionNumber);
-                console.log(answersObject[i].question);
-                console.log(answersObject[i].answer_1);
-                console.log(answersObject[i].answer_2);
-                console.log(answersObject[i].answer_3);
-                console.log(answersObject[i].answer_4);
-                console.log(answersObject[i].correct_answer);
             }
             const randomNumberQuestion = Math.floor((Math.random() * answersObject.length));
-            console.log(answersObject[randomNumberQuestion].question);
-            const QuestionOnScreen = new TextBox(`${answersObject[randomNumberQuestion].question}`, 50, 200, innerWidth / 1.5, 50, this.canvas, "#FFF", 10, 0, "", "Orange");
-            QuestionOnScreen.Draw();
-            console.log(QuestionOnScreen);
-        };
-        this.canvas = canvas;
-    }
-}
-class StartScreen {
-    constructor(canvas) {
-        this.draw = () => {
-            let startButton = new Button("Test", 150, 150, 100, 100, this.canvas, "../assets/images/button.png");
-            startButton.Draw();
+            console.warn(answersObject[randomNumberQuestion].question);
+            console.log(answersObject[randomNumberQuestion].answer_1);
+            console.log(answersObject[randomNumberQuestion].answer_2);
+            console.log(answersObject[randomNumberQuestion].answer_3);
+            console.log(answersObject[randomNumberQuestion].answer_4);
+            let textBoxInformation = new TextBox(`  ${answersObject[randomNumberQuestion].question}`, innerWidth / 2, 150, innerWidth / 2, 0, this.canvas, "white", 20, 200, "orange", "orange");
+            textBoxInformation.Draw();
         };
         this.canvas = canvas;
     }

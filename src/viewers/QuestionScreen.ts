@@ -9,7 +9,7 @@ class QuestionScreen {
             // Object of questions
 
                 // Uncommend for new background color
-                //document.getElementById("canvas").style.background = "#f3f3f3 url('')";
+                document.getElementById("canvas").style.background = "#f3f3f3 url('')";
 
                 const answersObject = [{
                 questionNumber: 1,
@@ -67,21 +67,23 @@ class QuestionScreen {
             }
             ];
             for (let i = 0; i < answersObject.length; i++) {
-                console.log(answersObject[i].questionNumber);
-                console.log(answersObject[i].question);
-                console.log(answersObject[i].answer_1);
-                console.log(answersObject[i].answer_2);
-                console.log(answersObject[i].answer_3);
-                console.log(answersObject[i].answer_4);
-                console.log(answersObject[i].correct_answer);
+                //console.log(answersObject[i].questionNumber);
+                //console.log(answersObject[i].question);
+                //console.log(answersObject[i].answer_1);
+                //console.log(answersObject[i].answer_2);
+                //console.log(answersObject[i].answer_3);
+                //console.log(answersObject[i].answer_4);
+                //console.log(answersObject[i].correct_answer);
             }
             const randomNumberQuestion = Math.floor((Math.random() * answersObject.length));
-            console.log(answersObject[randomNumberQuestion].question);
+            console.warn(answersObject[randomNumberQuestion].question);
+            console.log(answersObject[randomNumberQuestion].answer_1);
+            console.log(answersObject[randomNumberQuestion].answer_2);
+            console.log(answersObject[randomNumberQuestion].answer_3);
+            console.log(answersObject[randomNumberQuestion].answer_4);
 
-            const QuestionOnScreen = new TextBox(`${answersObject[randomNumberQuestion].question}`, 50, 200, innerWidth / 1.5, 50, this.canvas, "#FFF", 10, 0, "", "Orange");
-            QuestionOnScreen.Draw();
-            console.log(QuestionOnScreen);
-
+            let textBoxInformation = new TextBox(`  ${answersObject[randomNumberQuestion].question}`, innerWidth / 2, 150, innerWidth / 2 , 0, this.canvas, "white", 20, 200, "orange", "orange");
+            textBoxInformation.Draw();
 
         }
     }
