@@ -22,10 +22,10 @@ namespace GameEngine {
             const deltaTime: number = (timeStamp - this.lastTimeStamp) / 1000;
 
             // Clear the canvas
-            this.canvas.clear();
+            this.canvas.Clear();
             // Draw all the entities
             this.entities.forEach((entity: Entity) => {
-                entity.draw(deltaTime);
+                entity.Draw(deltaTime);
             })
 
             requestAnimationFrame(this.Run);

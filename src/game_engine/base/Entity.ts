@@ -1,47 +1,36 @@
 namespace GameEngine {
 
-    export class Entity {
-        protected xPos: number;
-        protected yPos: number;
-        protected height: number;
-        protected width: number;
-        private imageSrc: string;
-        private canvas: Canvas;
+    export abstract class Entity {
 
-        public constructor(
-            canvas: Canvas,
-            imageSrc: string,
-            xPos: number,
-            yPos: number,
-            width: number,
-            height: number
-        ) {
+        protected position: Vector2;
+        protected size: Vector2;
+
+        protected canvas: Canvas;
+
+        protected constructor(position: Vector2, size: Vector2, canvas: Canvas) {
+            this.size = size;
+            this.position = position;
             this.canvas = canvas;
-            this.imageSrc = imageSrc;
-            this.xPos = xPos;
-            this.yPos = yPos;
-            this.width = width;
-            this.height = height;
-        }
-        public draw(deltaTime: number) {
-            this.canvas.writeImageFromFileToCanvas(this.imageSrc, this.xPos, this.yPos);
         }
 
-        public getX(): number {
-            return this.xPos;
+
+        /**
+         * GetSize
+         */
+        public GetSize(): Vector2 {
+            return this.size;
         }
 
-        public getY(): number {
-            return this.yPos;
+        /**
+         * GetPosition
+         */
+        public GetPosition(): Vector2 {
+            return this.position;
         }
 
-        public getWidth(): number {
-            return this.width;
-        }
 
-        public getHeight(): number {
-            return this.height;
-        }
+        abstract Draw(deltaTime: number): void;
+
     }
-}
 
+}
