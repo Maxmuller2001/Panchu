@@ -9,24 +9,27 @@ var GameEngine;
     class Canvas {
         constructor(canvas) {
             this.canvas = canvas;
-            this.context = this.canvas.getContext('2d');
-            console.log('in canvas constructor');
+            this.context = canvas.getContext('2d');
         }
-        clear() {
+        Clear() {
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         }
-        writeTextToCanvas(Text, FontSize, Xpos, Ypos, Color = "white", Alignment = "center") {
-            this.context.font = `${FontSize}px Minecraft`;
-            this.context.fillStyle = Color;
-            this.context.textAlign = Alignment;
-            this.context.fillText(Text, Xpos, Ypos);
+        DrawRectangle(x, y, width, height, fillColor = "black") {
+            this.context.fillStyle = fillColor;
+            this.context.fillRect(x, y, width, height);
         }
-        writeImageFromFileToCanvas(Src, Xpos, Ypos) {
-            let image = new Image();
-            image.addEventListener('load', () => {
-                this.context.drawImage(image, Xpos, Ypos);
-            });
-            image.src = Src;
+        DrawStrokedRectangle(x, y, width, height, lineWidth = 4, strokeColor = "black", fillColor = strokeColor) {
+            this.context.fillStyle = fillColor;
+            this.context.strokeStyle = strokeColor;
+            this.context.lineWidth = lineWidth;
+            this.context.strokeRect(x, y, width, height);
+        }
+        WriteText(text, x, y, width, fontSize = 30, color = "white") {
+            this.context.fillStyle = color;
+            this.context.font = `${fontSize}px Minecraft`;
+            this.context.fillText(text, x, y, width);
+        }
+        DrawImage(source, x, y, width, height) {
         }
     }
     GameEngine.Canvas = Canvas;
@@ -37,52 +40,78 @@ var GameEngine;
         constructor(canvasElement) {
             this.entities = [];
             this.lastTimeStamp = 0;
+            this.Run = (timeStamp = 0) => {
+                const deltaTime = (timeStamp - this.lastTimeStamp) / 1000;
+                this.lastTimeStamp = timeStamp;
+                this.canvas.Clear();
+                this.entities.forEach((entity) => {
+                    entity.Draw(deltaTime);
+                });
+                requestAnimationFrame(this.Run);
+            };
             this.canvas = new GameEngine.Canvas(canvasElement);
-        }
-        Run(timeStamp = 0) {
-            const deltaTime = (timeStamp - this.lastTimeStamp) / 1000;
-            this.canvas.clear();
-            this.entities.forEach((entity) => {
-                entity.draw(deltaTime);
-            });
-            requestAnimationFrame(this.Run);
         }
     }
     GameEngine.Game = Game;
 })(GameEngine || (GameEngine = {}));
 var GameEngine;
 (function (GameEngine) {
-    class QuestionScreen {
-    }
-})(GameEngine || (GameEngine = {}));
-var GameEngine;
-(function (GameEngine) {
     class Entity {
-        constructor(canvas, imageSrc, xPos, yPos, width, height) {
+        constructor(position, size, canvas) {
+            this.size = size;
+            this.position = position;
             this.canvas = canvas;
-            this.imageSrc = imageSrc;
-            this.xPos = xPos;
-            this.yPos = yPos;
-            this.width = width;
-            this.height = height;
         }
-        draw(deltaTime) {
-            this.canvas.writeImageFromFileToCanvas(this.imageSrc, this.xPos, this.yPos);
+        GetSize() {
+            return this.size;
         }
-        getX() {
-            return this.xPos;
-        }
-        getY() {
-            return this.yPos;
-        }
-        getWidth() {
-            return this.width;
-        }
-        getHeight() {
-            return this.height;
+        GetPosition() {
+            return this.position;
         }
     }
     GameEngine.Entity = Entity;
+})(GameEngine || (GameEngine = {}));
+var GameEngine;
+(function (GameEngine) {
+    class DynamicEntity extends GameEngine.Entity {
+        constructor() {
+            super(...arguments);
+            this.velocity = new Vector2(0, 0);
+        }
+    }
+    GameEngine.DynamicEntity = DynamicEntity;
+})(GameEngine || (GameEngine = {}));
+var GameEngine;
+(function (GameEngine) {
+    class StaticEntity extends GameEngine.Entity {
+    }
+    GameEngine.StaticEntity = StaticEntity;
+})(GameEngine || (GameEngine = {}));
+var GameEngine;
+(function (GameEngine) {
+    class TextBox extends GameEngine.StaticEntity {
+        constructor(text, x, y, width, height, canvas, textColor, fontSize, lineWidth, strokeColor, fillColor) {
+            const position = new Vector2(x, y);
+            const size = new Vector2(width, height);
+            super(position, size, canvas);
+            this.text = text;
+            this.textColor = textColor;
+            this.fontSize = fontSize;
+            this.lineWidth = lineWidth;
+            this.strokeColor = strokeColor;
+            this.fillColor = fillColor;
+        }
+        Draw() {
+            const position = this.GetPosition();
+            const size = this.GetSize();
+            this.canvas.DrawStrokedRectangle(position.x, position.y, size.x, size.y, this.lineWidth, this.strokeColor, this.fillColor);
+            this.canvas.WriteText(this.text, this.fontSize, position.x, position.y, this.fontSize, this.textColor);
+        }
+        SetText(text) {
+            this.text = text;
+        }
+    }
+    GameEngine.TextBox = TextBox;
 })(GameEngine || (GameEngine = {}));
 class KeyBoardListener {
     constructor() {
@@ -132,6 +161,12 @@ class KeyBoardListener {
     }
     getdownPressed() {
         return this.downPressed;
+    }
+}
+class Vector2 {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
     }
 }
 //# sourceMappingURL=app.js.map

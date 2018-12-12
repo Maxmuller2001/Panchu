@@ -3,11 +3,11 @@ namespace GameEngine {
     export class TextBox extends StaticEntity {
 
         private text: string;
-        private textColor: string;
-        private fontSize: number;
-        private lineWidth: number;
-        private strokeColor: string;
-        private fillColor: string;
+        private readonly textColor: string;
+        private readonly fontSize: number;
+        private readonly lineWidth: number;
+        private readonly strokeColor: string;
+        private readonly fillColor: string;
 
         constructor(
             text: string,

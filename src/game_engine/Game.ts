@@ -17,9 +17,10 @@ namespace GameEngine {
         /**
          * Run
          */
-        public Run(timeStamp = 0) {
+        public Run = (timeStamp: number = 0) => {
             // Calculate the time between the current and last frame from miliseconds to seconds
             const deltaTime: number = (timeStamp - this.lastTimeStamp) / 1000;
+            this.lastTimeStamp = timeStamp;
 
             // Clear the canvas
             this.canvas.Clear();

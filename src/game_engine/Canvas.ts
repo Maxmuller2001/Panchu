@@ -55,5 +55,9 @@ namespace GameEngine {
                 width
             );
         }
+
+        public DrawImage(source: string, x: number, y: number, width: number, height: number) {
+
+        }
     }
 }
