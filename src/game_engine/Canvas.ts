@@ -61,7 +61,25 @@ class Canvas {
         );
     }
 
-    public DrawImage(image: HTMLImageElement, x: number, y: number, width?: number, height?: number) {
+    public DrawImage(source: string, x: number, y: number, width?: number, height?: number) {
+        let image: HTMLImageElement = new Image(width, height);
+
+        image.onload = () => {
+            this.context.drawImage(
+                image,
+                x,
+                y,
+                width,
+                height
+            );
+        }
+
+        image.src = source;
+
+        return image;
+    }
+
+    public DrawImageFromFile(image: HTMLImageElement, x: number, y: number, width?: number, height?: number) {
         this.context.drawImage(
             image,
             x,

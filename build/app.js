@@ -2,8 +2,8 @@ function onLoad() {
     let canvasElement = document.getElementById("canvas");
     let canvas = new Canvas(canvasElement);
     let game = new Game(canvas);
-    let screen = new QuestionScreen(canvas);
-    screen.draw();
+    let edgar = new QuestionScreen(canvas);
+    edgar.draw();
 }
 window.onload = onLoad;
 class Canvas {
@@ -31,7 +31,15 @@ class Canvas {
         this.context.font = `${fontSize.toString()}px Arial`;
         this.context.fillText(text, x, y + fontSize, maxWidth);
     }
-    DrawImage(image, x, y, width, height) {
+    DrawImage(source, x, y, width, height) {
+        let image = new Image(width, height);
+        image.onload = () => {
+            this.context.drawImage(image, x, y, width, height);
+        };
+        image.src = source;
+        return image;
+    }
+    DrawImageFromFile(image, x, y, width, height) {
         this.context.drawImage(image, x, y, width, height);
     }
 }
@@ -70,34 +78,28 @@ class DynamicEntity extends Entity {
         this.velocity = new Vector2(0, 0);
     }
 }
-class ImageButton extends Entity {
-    constructor(text, x, y, width, height, canvas, imageSource) {
-        const position = new Vector2(x, y);
-        const size = new Vector2(width, height);
-        super(position, size, canvas);
-        this.text = text;
-        if (imageSource) {
-            this.image = new Image(width, height);
-            this.image.onload = () => { this.imageLoaded = true; };
-            this.image.src = imageSource;
-        }
-    }
-    Draw() {
-        if (this.imageLoaded || this.image === undefined)
-            this.canvas.DrawImage(this.image, this.position.x, this.position.y, this.size.x, this.size.y);
-    }
-}
 class ImageBox extends Entity {
     constructor(source, x, y, width, height, canvas) {
-        const position = new Vector2(x, y);
-        const size = new Vector2(width, height);
-        super(position, size, canvas);
-        this.image = new Image(width, height);
-        this.image.src = source;
+        super(new Vector2(x, y), new Vector2(width, height), canvas);
         this.scale = 1;
+        this.imageSource = source;
     }
     Draw() {
-        this.canvas.DrawImage(this.image, this.position.x, this.position.y, this.size.x * this.scale, this.size.y * this.scale);
+        if (this.image) {
+            this.canvas.DrawImageFromFile(this.image, this.position.x, this.position.y, this.size.x * this.scale, this.size.y * this.scale);
+        }
+        else {
+            this.image = this.canvas.DrawImage(this.imageSource, this.position.x, this.position.y, this.size.x * this.scale, this.size.y * this.scale);
+        }
+    }
+}
+class ImageButton extends Entity {
+    constructor(source, x, y, width, height, canvas) {
+        super(new Vector2(x, y), new Vector2(width, height), canvas);
+        this.imageBox = new ImageBox(source, x, y, width, height, canvas);
+    }
+    Draw() {
+        this.imageBox.Draw();
     }
 }
 class TextBox extends Entity {
@@ -113,6 +115,16 @@ class TextBox extends Entity {
     Draw() {
         this.canvas.DrawStrokedRectangle(this.position.x, this.position.y, this.size.x, this.size.y, this.lineWidth, this.strokeColor, this.fillColor);
         this.canvas.WriteText(this.text, this.position.x, this.position.y + this.size.y / 4, this.fontSize, this.textColor);
+    }
+}
+class TextButton extends Entity {
+    constructor(text, x, y, width, height, canvas, textColor, fontSize, lineWidth, strokeColor, fillColor) {
+        super(new Vector2(x, y), new Vector2(width, height), canvas);
+        this.text = text;
+        this.textBox = new TextBox(text, x, y, width, height, canvas, textColor, fontSize, lineWidth, strokeColor, fillColor);
+    }
+    Draw() {
+        this.textBox.Draw();
     }
 }
 class KeyBoardListener {
