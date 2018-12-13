@@ -3,26 +3,24 @@ class ImageBox extends Entity {
     public scale: number;
 
     private image: HTMLImageElement;
-    private imageSource: string;
+    private canDraw: boolean;
 
-    constructor(source: string, x: number, y: number, width: number, height: number, canvas: Canvas) {
-        super(new Vector2(x, y), new Vector2(width, height), canvas);
+    //public onClick: 
+
+    constructor(source: string, x: number, y: number, width: number, height: number, canvas: Canvas, mouse: Mouse) {
+        super(new Vector2(x, y), new Vector2(width, height), canvas, mouse);
         this.scale = 1;
-        this.imageSource = source;
+        this.image = new Image(width, height);
+        this.image.onload = () => { this.canDraw = true };
+        this.image.src = source;
     }
 
     public Draw() {
-        if (this.image) {
+        console.log(this.image.src);
+        if (this.canDraw === true) {
+            console.log(1);
             this.canvas.DrawImageFromFile(
                 this.image,
-                this.position.x,
-                this.position.y,
-                this.size.x * this.scale,
-                this.size.y * this.scale
-            );
-        } else {
-            this.image = this.canvas.DrawImage(
-                this.imageSource,
                 this.position.x,
                 this.position.y,
                 this.size.x * this.scale,

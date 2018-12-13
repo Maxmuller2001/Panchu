@@ -4,11 +4,13 @@ abstract class Entity {
     protected size: Vector2;
 
     protected canvas: Canvas;
+    protected mouse: Mouse;
 
-    protected constructor(position: Vector2, size: Vector2, canvas: Canvas) {
+    protected constructor(position: Vector2, size: Vector2, canvas: Canvas, mouse: Mouse) {
         this.size = size;
         this.position = position;
         this.canvas = canvas;
+        this.mouse = mouse;
     }
 
 

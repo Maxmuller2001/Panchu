@@ -14,13 +14,14 @@ class TextBox extends Entity {
         width: number,
         height: number,
         canvas: Canvas,
+        mouse: Mouse,
         textColor?: string,
         fontSize?: number,
         lineWidth?: number,
         strokeColor?: string,
         fillColor?: string
     ) {
-        super(new Vector2(x, y), new Vector2(width, height), canvas);
+        super(new Vector2(x, y), new Vector2(width, height), canvas, mouse);
 
         this.text = text;
         this.textColor = textColor;
@@ -45,8 +46,8 @@ class TextBox extends Entity {
         // Write the text
         this.canvas.WriteText(
             this.text,
-            this.position.x,
-            this.position.y + this.size.y / 4,
+            this.position.x + this.size.x / 2,
+            this.position.y + this.size.y / 2 + this.size.y / 8,
             this.fontSize,
             this.textColor
         );

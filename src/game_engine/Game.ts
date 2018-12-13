@@ -1,14 +1,24 @@
 class Game {
     private canvas: Canvas;
 
-    private entities: Array<Entity> = [];
+    private mouse: Mouse;
 
     // In miliseconds
     private lastTimeStamp: number = 0;
 
+    // Views
+    private demoLevelScreen: DemoLevelScreen;
+    private questionScreen: QuestionScreen;
+    private startScreen: StartScreen;
 
-    constructor(canvas: Canvas) {
-        this.canvas = canvas;
+
+    constructor(canvasElement: HTMLCanvasElement) {
+        this.canvas = new Canvas(canvasElement);
+        this.mouse = new Mouse(canvasElement);
+
+        this.demoLevelScreen = new DemoLevelScreen(this.canvas, this.mouse);
+        this.questionScreen = new QuestionScreen(this.canvas, this.mouse);
+        this.startScreen = new StartScreen(this.canvas, this.mouse);
     }
     
 
@@ -22,10 +32,9 @@ class Game {
 
         // Clear the canvas
         this.canvas.Clear();
-        // Draw all the entities
-        this.entities.forEach((entity: Entity) => {
-            entity.Draw(deltaTime);
-        })
+        //this.startScreen.Draw();
+        //this.demoLevelScreen.Draw();
+        //this.demoLevelScreen.Draw();
 
         requestAnimationFrame(this.Run);
     }

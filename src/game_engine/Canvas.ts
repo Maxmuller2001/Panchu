@@ -43,20 +43,33 @@ class Canvas {
         );
     }
 
+    public DrawCircle(x: number, y: number, radius: number, endAngle: number, counterClockwise: boolean, LineWidth: number, BorderColor: string, FillStyle?: string){
+        this.context.beginPath();
+        this.context.arc(x, y, radius, 1.501 * Math.PI, endAngle, counterClockwise);
+        this.context.lineWidth = LineWidth;
+        this.context.strokeStyle = BorderColor;
+        this.context.stroke(); 
+        this.context.fillStyle = FillStyle;
+        this.context.fill();
+    }
+
     public WriteText(
         text: string,
         x: number,
         y: number,
         fontSize: number = 30,
         color: string = "white",
+        // Giving this variable its actual datatype causes a weird error...
+        alignment: any = "center",
         maxWidth?: number
     ) {
         this.context.fillStyle = color;
         this.context.font = `${fontSize.toString()}px Arial`;
+        this.context.textAlign = alignment;
         this.context.fillText(
             text,
             x,
-            y + fontSize,
+            y,
             maxWidth
         );
     }
@@ -87,6 +100,12 @@ class Canvas {
             width,
             height
         );
+    }
+
+
+    public GetSize(): Vector2 {
+        const size: Vector2 = new Vector2(this.canvas.width, this.canvas.height);
+        return size;
     }
 
 }
